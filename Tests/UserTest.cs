@@ -26,6 +26,17 @@ namespace Slapshot.Objects
       Assert.Equal("Russ", result);
     }
 
+    [Fact]
+    public void Test2_GetPassword()
+    {
+      // arrange
+      User newUser = new User("Russ", "password");
+      // act
+      string result = newUser.GetPassword();
+
+      Assert.Equal("password", result);
+
+
 
     }
   }
