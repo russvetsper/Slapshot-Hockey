@@ -38,50 +38,50 @@ namespace Slapshot.Objects
     }
 
     public override bool Equals(System.Object otherUser)
-   {
-     if (!(otherUser is User))
-     {
-       return false;
-     }
-     else
-     {
-       User newUser = (User) otherUser;
-       return this.GetName().Equals(newUser.GetName());
-     }
-   }
+    {
+      if (!(otherUser is User))
+      {
+        return false;
+      }
+      else
+      {
+        User newUser = (User) otherUser;
+        return this.GetName().Equals(newUser.GetName());
+      }
+    }
 
-   public void Save()
-   {
-     SqlConnection conn = DB.Connection();
-     conn.Open();
+    public void Save()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
 
-     SqlCommand cmd = new SqlCommand("INSERT INTO users(name,password)OUTPUT INSERTED.id VALUES (@userName,@userPassword);", conn );
-     SqlParameter nameParameter = new SqlParameter();
-     nameParameter.ParameterName = "@userName";
-     nameParameter.Value = this.GetName();
-     cmd.Parameters.Add(nameParameter);
+      SqlCommand cmd = new SqlCommand("INSERT INTO users(name,password)OUTPUT INSERTED.id VALUES (@userName,@userPassword);", conn );
+      SqlParameter nameParameter = new SqlParameter();
+      nameParameter.ParameterName = "@userName";
+      nameParameter.Value = this.GetName();
+      cmd.Parameters.Add(nameParameter);
 
-     SqlParameter passwordParameter = new SqlParameter();
-     passwordParameter.ParameterName = "@userPassword";
-     passwordParameter.Value = this.GetPassword();
-     cmd.Parameters.Add(passwordParameter);
-     SqlDataReader rdr = cmd.ExecuteReader();
+      SqlParameter passwordParameter = new SqlParameter();
+      passwordParameter.ParameterName = "@userPassword";
+      passwordParameter.Value = this.GetPassword();
+      cmd.Parameters.Add(passwordParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
 
-     while(rdr.Read())
-     {
-       this._id = rdr.GetInt32(0);
-     }
-     if (rdr !=null)
-     {
-       rdr.Close();
-     }
-     if (conn !=null)
-     {
-       conn.Close();
-     }
-   }
+      while(rdr.Read())
+      {
+        this._id = rdr.GetInt32(0);
+      }
+      if (rdr !=null)
+      {
+        rdr.Close();
+      }
+      if (conn !=null)
+      {
+        conn.Close();
+      }
+    }
 
-   public static List<User> GetAll()
+    public static List<User> GetAll()
     {
       List<User> allUsers = new List<User>{};
 
@@ -110,41 +110,76 @@ namespace Slapshot.Objects
     }
 
     public static User Find(int id)
-   {
-     SqlConnection conn = DB.Connection();
-     conn.Open();
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
 
-     SqlCommand cmd = new SqlCommand("SELECT * FROM users WHERE id = @userId;", conn);
-     SqlParameter userIdParameter = new SqlParameter();
-     userIdParameter.ParameterName =  "@userId";
-     userIdParameter.Value = id.ToString();
-     cmd.Parameters.Add(userIdParameter);
-     SqlDataReader rdr = cmd.ExecuteReader();
+      SqlCommand cmd = new SqlCommand("SELECT * FROM users WHERE id = @userId;", conn);
+      SqlParameter userIdParameter = new SqlParameter();
+      userIdParameter.ParameterName =  "@userId";
+      userIdParameter.Value = id.ToString();
+      cmd.Parameters.Add(userIdParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
 
-     int findUserId = 0;
-     string findUserName = null;
-     string findUserPassword = null;
-     while(rdr.Read())
-     {
-       findUserId = rdr.GetInt32(0);
-       findUserName = rdr.GetString(1);
-       findUserPassword = rdr.GetString(2);
-     }
-     User findUser = new User(findUserName,findUserPassword,findUserId);
+      int findUserId = 0;
+      string findUserName = null;
+      string findUserPassword = null;
+      while(rdr.Read())
+      {
+        findUserId = rdr.GetInt32(0);
+        findUserName = rdr.GetString(1);
+        findUserPassword = rdr.GetString(2);
+      }
+      User findUser = new User(findUserName,findUserPassword,findUserId);
 
-     if (rdr != null)
-     {
-       rdr.Close();
-     }
-     if (conn != null)
-     {
-       conn.Close();
-     }
-     return findUser;
-
-   }
-
-
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return findUser;
 
     }
+
+    public void Update(string Name)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("UPDATE users SET name =@userName output inserted.name WHERE id =@userId;", conn);
+      SqlParameter UserNameParameter = new SqlParameter();
+      UserNameParameter.ParameterName = "@userName";
+      UserNameParameter.Value = Name;
+
+      SqlParameter UserIdParameter = new SqlParameter();
+      UserIdParameter.ParameterName = "@UserId";
+      UserIdParameter.Value = this.GetId();
+
+      cmd.Parameters.Add(UserNameParameter);
+      cmd.Parameters.Add(UserIdParameter);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        this._name = rdr.GetString(0);
+      }
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+
+      if (rdr != null)
+      {
+        conn.Close();
+      }
+    }
+
+
+
   }
+}
