@@ -49,6 +49,31 @@ namespace Slapshot.Objects
      Assert.Equal("John", result);
    }
 
+   [Fact]
+   public void Test4_SaveUser()
+   {
+     //Arrange
+   User newUser = new User("Russ", "password");
+   newUser.Save();
+//ACt
+   List<User> allUsers = User.GetAll();
+   Console.WriteLine(allUsers.Count);
+//assert
+   Assert.Equal(newUser, allUsers[0]);
+   }
+
+   [Fact]
+    public void Test5_FindId()
+    {
+      User newUser = new User ("russ","password");
+      newUser.Save();
+
+      User findUser = User.Find(newUser.GetId());
+
+      Assert.Equal(findUser, newUser);
+    }
+
+
 
     }
   }

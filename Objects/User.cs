@@ -81,6 +81,69 @@ namespace Slapshot.Objects
      }
    }
 
+   public static List<User> GetAll()
+    {
+      List<User> allUsers = new List<User>{};
+
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand("SELECT * FROM users;", conn);
+      SqlDataReader rdr  = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        int userId = rdr.GetInt32(0);
+        string userName = rdr.GetString(1);
+        string userPassword = rdr.GetString(2);
+        User newUser = new User(userName, userPassword, userId);
+        allUsers.Add(newUser);
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return allUsers;
+    }
+
+    public static User Find(int id)
+   {
+     SqlConnection conn = DB.Connection();
+     conn.Open();
+
+     SqlCommand cmd = new SqlCommand("SELECT * FROM users WHERE id = @userId;", conn);
+     SqlParameter userIdParameter = new SqlParameter();
+     userIdParameter.ParameterName =  "@userId";
+     userIdParameter.Value = id.ToString();
+     cmd.Parameters.Add(userIdParameter);
+     SqlDataReader rdr = cmd.ExecuteReader();
+
+     int findUserId = 0;
+     string findUserName = null;
+     string findUserPassword = null;
+     while(rdr.Read())
+     {
+       findUserId = rdr.GetInt32(0);
+       findUserName = rdr.GetString(1);
+       findUserPassword = rdr.GetString(2);
+     }
+     User findUser = new User(findUserName,findUserPassword,findUserId);
+
+     if (rdr != null)
+     {
+       rdr.Close();
+     }
+     if (conn != null)
+     {
+       conn.Close();
+     }
+     return findUser;
+
+   }
+
 
 
     }
