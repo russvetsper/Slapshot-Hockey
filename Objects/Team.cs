@@ -86,5 +86,74 @@ public class Team
 
 
 
+        public void Save()
+        {
+          SqlConnection conn = DB.Connection();
+          conn.Open();
+
+          SqlCommand cmd = new SqlCommand("INSERT INTO teams(name,team_id)OUTPUT INSERTED.id VALUES (@teamName,@team_id);", conn );
+          SqlParameter nameParameter = new SqlParameter();
+          nameParameter.ParameterName = "@teamName";
+          nameParameter.Value = this.GetTeamName();
+          cmd.Parameters.Add(nameParameter);
+
+          SqlParameter team_idParameter = new SqlParameter();
+          team_idParameter.ParameterName = "@team_id";
+          team_idParameter.Value = this.GetTeam_Id();
+          cmd.Parameters.Add(team_idParameter);
+          SqlDataReader rdr = cmd.ExecuteReader();
+
+          while(rdr.Read())
+          {
+            this._id = rdr.GetInt32(0);
+          }
+          if (rdr !=null)
+          {
+            rdr.Close();
+          }
+          if (conn !=null)
+          {
+            conn.Close();
+          }
+        }
+
+      //  //
+      //   public static Team Find(int id)
+      //  {
+      //    SqlConnection conn = DB.Connection();
+      //    conn.Open();
+       //
+      //    SqlCommand cmd = new SqlCommand("SELECT * FROM teams WHERE id = @teamId;", conn);
+      //    SqlParameter teamIdParameter = new SqlParameter();
+      //    teamIdParameter.ParameterName =  "@teamId";
+      //    teamIdParameter.Value = id.ToString();
+      //    cmd.Parameters.Add(teamIdParameter);
+      //    SqlDataReader rdr = cmd.ExecuteReader();
+       //
+      //    int findTeamId = 0;
+      //    string findTeamName = null;
+      //    int findTeam_id = null;
+      //    while(rdr.Read())
+      //    {
+      //      findTeamId = rdr.GetInt32(0);
+      //      findTeamName = rdr.GetString(1);
+      //      findTeam_id = rdr.GetInt(2);
+      //    }
+      //    Team findTeam = new Team(findTeamName,findTeam_id,findTeamId);
+       //
+      //    if (rdr != null)
+      //    {
+      //      rdr.Close();
+      //    }
+      //    if (conn != null)
+      //    {
+      //      conn.Close();
+      //    }
+      //    return findTeam;
+       //
+      //  }
+
+
+
 }
 }

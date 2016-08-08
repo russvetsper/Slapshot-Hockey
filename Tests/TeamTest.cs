@@ -39,6 +39,34 @@ namespace Slapshot.Objects
 
    }
 
+   [Fact]
+   public void Test3_SetTeamName()
+   {
+
+     Team newTeam = new Team("Red Wings",1);
+     newTeam.SetName("Red Wings");
+
+     string result = newTeam.GetTeamName();
+
+     Assert.Equal("Red Wings", result);
+   }
+
+
+
+
+   [Fact]
+   public void Test4_SaveTeamName()
+   {
+
+   Team newTeam = new Team("Red Wings",1);
+   newTeam.Save();
+
+   List<Team> allTeams = Team.GetAll();
+   Console.WriteLine(allTeams.Count);
+
+   Assert.Equal(newTeam, allTeams[0]);
+   }
+
 
  }
 }
