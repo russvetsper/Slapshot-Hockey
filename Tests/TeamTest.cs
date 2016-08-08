@@ -81,5 +81,18 @@ namespace Slapshot.Objects
      }
 
 
+
+
+     [Fact]
+  public void Test6_UpdateTeam()
+  {
+    Team newTeam = new Team("Avalanche",1);
+    newTeam.Save();
+    newTeam.Update("Bruins");
+    string result = newTeam.GetTeamName();
+
+    Assert.Equal("Bruins", result);
+  }
+
  }
 }

@@ -6,15 +6,15 @@ namespace Slapshot.Objects
 {
 public class Team
 {
+  private int _id;
   private string _name;
   private int _team_id;
-  private int _id;
 
   public Team(string Name, int team_id, int id=0)
   {
+    _id = id;
     _name = Name;
     _team_id = team_id;
-    _id = id;
   }
 
   public string GetTeamName()
@@ -152,6 +152,43 @@ public class Team
          return findTeam;
 
        }
+
+       public void Update(string Name)
+       {
+         SqlConnection conn = DB.Connection();
+         conn.Open();
+
+         SqlCommand cmd = new SqlCommand("UPDATE teams SET name = @teamName output inserted.name WHERE id = @teamId;", conn);
+         SqlParameter TeamNameParameter = new SqlParameter();
+         TeamNameParameter.ParameterName = "@teamName";
+         TeamNameParameter.Value = Name;
+
+         SqlParameter TeamIdParameter = new SqlParameter();
+         TeamIdParameter.ParameterName = "@teamId";
+         TeamIdParameter.Value = this.GetId();
+
+         cmd.Parameters.Add(TeamNameParameter);
+         cmd.Parameters.Add(TeamIdParameter);
+
+         SqlDataReader rdr = cmd.ExecuteReader();
+
+         while(rdr.Read())
+         {
+           this._name = rdr.GetString(0);
+         }
+
+         if (rdr != null)
+         {
+           rdr.Close();
+         }
+
+         if (rdr != null)
+         {
+           conn.Close();
+         }
+       }
+
+
 
 
 
