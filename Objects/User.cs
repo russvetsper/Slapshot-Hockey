@@ -180,6 +180,40 @@ namespace Slapshot.Objects
     }
 
 
+    public void Delete()
+     {
+       SqlConnection conn = DB.Connection();
+       conn.Open();
+       SqlCommand cmd = new SqlCommand ("DELETE FROM users WHERE id =@userId;", conn);
+
+       SqlParameter userIdParameter = new SqlParameter();
+       userIdParameter.ParameterName = "@userId";
+       userIdParameter.Value=this.GetId();
+       cmd.Parameters.Add(userIdParameter);
+       cmd.ExecuteNonQuery();
+       if (conn !=null)
+       {
+         conn.Close();
+       }
+     }
+
+
+     public static void DeleteAll()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand ("DELETE FROM users;", conn);
+      cmd.ExecuteNonQuery();
+      conn.Close();
+    }
+
+     public void Dispose()
+   {
+     User.DeleteAll();
+   }
+
+
+
 
   }
 }

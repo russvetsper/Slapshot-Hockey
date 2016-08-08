@@ -5,7 +5,7 @@ using System;
 
 namespace Slapshot.Objects
 {
-  public class UserTest
+  public class UserTest : IDisposable
   {
 
     public UserTest()
@@ -82,6 +82,31 @@ namespace Slapshot.Objects
 
      Assert.Equal("mike", result);
    }
+
+   [Fact]
+    public void Test7_DeleteOneUser()
+    {
+      User firstUser = new User("Russ","password");
+      firstUser.Save();
+
+      User secondUser = new User("Bob", "password");
+      secondUser.Save();
+
+      firstUser.Delete();
+      List<User> allUsers = User.GetAll();
+      List<User> afterDeleteFirstUser = new List<User> {secondUser};
+
+      Assert.Equal(afterDeleteFirstUser, allUsers);
+
+    }
+
+    public void Dispose()
+   {
+     User.DeleteAll();
+   }
+
+
+
 
 
 
