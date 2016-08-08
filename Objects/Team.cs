@@ -56,5 +56,35 @@ public class Team
           return this.GetTeamName().GetHashCode();
         }
 
+        public static List<Team> GetAll()
+          {
+            List<Team> allTeams = new List<Team>{};
+
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM teams;", conn);
+            SqlDataReader rdr  = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+              int teamId = rdr.GetInt32(0);
+              string teamName = rdr.GetString(1);
+              int team_id= rdr.GetInt32(2);
+              Team newTeam = new Team(teamName, team_id, teamId);
+              allTeams.Add(newTeam);
+            }
+            if (rdr != null)
+            {
+              rdr.Close();
+            }
+            if (conn != null)
+            {
+              conn.Close();
+            }
+            return allTeams;
+          }
+
+
+
 }
 }

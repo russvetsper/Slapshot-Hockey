@@ -26,5 +26,19 @@ namespace Slapshot.Objects
      Assert.Equal("The Goons", result);
    }
 
+
+   [Fact]
+   public void Test2_GetTeamID()
+   {
+     // arrange
+    Team newTeam = new Team("Leafs",1);
+     // act
+     int result = newTeam.GetTeam_Id();
+
+     Assert.Equal(1, result);
+
+   }
+
+
  }
 }
