@@ -22,6 +22,11 @@ namespace Slapshot.Objects
       return _name;
     }
 
+    public string GetNameAgain()
+    {
+      return _name;
+    }
+
     public string GetDoe()
     {
       return _password;
