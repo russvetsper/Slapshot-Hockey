@@ -22,12 +22,7 @@ namespace Slapshot.Objects
       return _name;
     }
 
-    public string GetNameAgain()
-    {
-      return _name;
-    }
-
-    public string GetDoe()
+    public string GetPassword()
     {
       return _password;
     }
@@ -54,6 +49,38 @@ namespace Slapshot.Objects
        return this.GetName().Equals(newUser.GetName());
      }
    }
+
+   public void Save()
+   {
+     SqlConnection conn = DB.Connection();
+     conn.Open();
+
+     SqlCommand cmd = new SqlCommand("INSERT INTO users(name,password)OUTPUT INSERTED.id VALUES (@userName,@userPassword);", conn );
+     SqlParameter nameParameter = new SqlParameter();
+     nameParameter.ParameterName = "@userName";
+     nameParameter.Value = this.GetName();
+     cmd.Parameters.Add(nameParameter);
+
+     SqlParameter passwordParameter = new SqlParameter();
+     passwordParameter.ParameterName = "@userPassword";
+     passwordParameter.Value = this.GetPassword();
+     cmd.Parameters.Add(passwordParameter);
+     SqlDataReader rdr = cmd.ExecuteReader();
+
+     while(rdr.Read())
+     {
+       this._id = rdr.GetInt32(0);
+     }
+     if (rdr !=null)
+     {
+       rdr.Close();
+     }
+     if (conn !=null)
+     {
+       conn.Close();
+     }
+   }
+
 
 
     }
