@@ -68,5 +68,18 @@ namespace Slapshot.Objects
    }
 
 
+
+     [Fact]
+     public void Test5_FindTeamId()
+     {
+       Team newTeam = new Team ("Leafs",1);
+       newTeam.Save();
+
+       Team findTeam = Team.Find(newTeam.GetId());
+
+       Assert.Equal(findTeam, newTeam);
+     }
+
+
  }
 }
