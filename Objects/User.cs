@@ -23,6 +23,10 @@ namespace Slapshot.Objects
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4f9a64304eff58592bfa277bd392d62f8456d096
 =======
 
 >>>>>>> 4f9a64304eff58592bfa277bd392d62f8456d096
