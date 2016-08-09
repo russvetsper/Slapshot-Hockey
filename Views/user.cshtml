@@ -1,0 +1,17 @@
+<h2>Here are all the users in this category:</h2>
+
+@if (@Model["teams"].Count == 0)
+{
+  <p>No clients have been added yet!</p>
+}
+else
+{
+  <ol>
+    @foreach (var team in @Model["teams"])
+    {
+      <li>@team.GetName()</li>
+    }
+  </ol>
+}
+<p><a href="/teams/new">Add a new team</a></p>
+<p><a href="/">Return to Main Page</a></p>

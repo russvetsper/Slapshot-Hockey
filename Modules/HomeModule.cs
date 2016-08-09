@@ -13,20 +13,16 @@ namespace Slapshot.Objects
           return View["index.cshtml", AllUsers];
       };
 
-      Get["/teams"] = _ => {
-        List<Team> AllTeams = Team.GetAll();
-        return View["teams.cshtml", AllTeams];
-      };
-
 
       Get["/users"] = _ => {
         List<User> allUsers = User.GetAll();
         return View["users.cshtml", allUsers];
       };
 
+
       Get["/users/new"] = _ => {
 
-        return View["add_user.cshtml"];
+        return View["user_form.cshtml"];
 
       };
 
@@ -35,6 +31,44 @@ namespace Slapshot.Objects
         newUser.Save();
         List<User> allUsers= User.GetAll();
         return View["success.cshtml"];
+      };
+
+
+      Get["/users/{id}"] = parameters => {
+        Dictionary<string, object> model = new Dictionary<string, object>();
+        var SelectedUser = User.Find(parameters.id);
+        var UserTeams = SelectedUser.GetTeams();
+        model.Add("user", SelectedUser);
+        model.Add("teams", UserTeams);
+        return View["user.cshtml", model];
+      };
+
+      Get["user/edit/{id}"] = parameters => {
+        User SelectedUser = User.Find(parameters.id);
+        return View["user_edit.cshtml", SelectedUser];
+      };
+
+      Patch["user/edit/{id}"] = parameters => {
+        User SelectedUser = User.Find(parameters.id);
+        SelectedUser.Update(Request.Form["user-name"]);
+        return View["success.cshtml"];
+      };
+
+
+      Get["/user/delete/{id}"] = parameters => {
+        User SelectedUser = User.Find(parameters.id);
+        return View["user_delete.cshtml", SelectedUser];
+      };
+
+      Delete["/user/delete/{id}"] = parameters => {
+        User SelectedUser = User.Find(parameters.id);
+        SelectedUser.Delete();
+        return View["success.cshtml"];
+      };
+
+      Get["/teams"] = _ => {
+        List<Team> AllTeams = Team.GetAll();
+        return View["teams.cshtml", AllTeams];
       };
 
 
@@ -53,36 +87,7 @@ namespace Slapshot.Objects
         return View["cleared.cshtml"];
       };
 
-      Get["/users/{id}"] = parameters => {
-       Dictionary<string, object> model = new Dictionary<string, object>();
-       var SelectedUser = User.Find(parameters.id);
-       var UserTeams = SelectedUser.GetTeams();
-       model.Add("user", SelectedUser);
-       model.Add("teams", UserTeams);
-       return View["users.cshtml", model];
-     };
 
-      Get["users/edit/{id}"] = parameters => {
-       User SelectedUser = User.Find(parameters.id);
-       return View["user_edit.cshtml", SelectedUser];
-     };
-
-     Patch["users/edit/{id}"] = parameters => {
-       User SelectedUser = User.Find(parameters.id);
-       SelectedUser.Update(Request.Form["user-name"]);
-       return View["success.cshtml"];
-     };
-
-     Get["/user/delete/{id}"] = parameters => {
-        User SelectedUser = User.Find(parameters.id);
-        return View["user_delete.cshtml", SelectedUser];
-      };
-
-      Delete["/user/delete/{id}"] = parameters => {
-        User SelectedUser = User.Find(parameters.id);
-        SelectedUser.Delete();
-        return View["success.cshtml"];
-      };
 
 
 

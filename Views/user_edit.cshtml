@@ -1,0 +1,11 @@
+<h1>User List</h1>
+<hr />
+<h2>Edit user: @Model.GetName()</h2>
+<form action="/user/edit/@Model.GetId()" method="post">
+  <input type="hidden" name="_method" value="PATCH">
+  <input name="user-id" type="hidden" value="@Model.GetId()">
+  <label for="user-name">User name</label>
+  <input id="user-name" name="user-name" type="text">
+  <button type="submit">Submit</button>
+</form>
+<h4><a href="/">Return home</a></h4>
