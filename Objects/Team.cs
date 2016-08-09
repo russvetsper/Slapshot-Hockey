@@ -6,15 +6,15 @@ namespace Slapshot.Objects
 {
 public class Team
 {
+  private int _id;
   private string _name;
   private int _team_id;
-  private int _id;
 
   public Team(string Name, int team_id, int id=0)
   {
+    _id = id;
     _name = Name;
     _team_id = team_id;
-    _id = id;
   }
 
   public string GetTeamName()
@@ -56,5 +56,165 @@ public class Team
           return this.GetTeamName().GetHashCode();
         }
 
-}
+        public static List<Team> GetAll()
+          {
+            List<Team> allTeams = new List<Team>{};
+
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM teams;", conn);
+            SqlDataReader rdr  = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+              int teamId = rdr.GetInt32(0);
+              string teamName = rdr.GetString(1);
+              int team_id= rdr.GetInt32(2);
+              Team newTeam = new Team(teamName, team_id, teamId);
+              allTeams.Add(newTeam);
+            }
+            if (rdr != null)
+            {
+              rdr.Close();
+            }
+            if (conn != null)
+            {
+              conn.Close();
+            }
+            return allTeams;
+          }
+
+
+
+        public void Save()
+        {
+          SqlConnection conn = DB.Connection();
+          conn.Open();
+
+          SqlCommand cmd = new SqlCommand("INSERT INTO teams(name,team_id)OUTPUT INSERTED.id VALUES (@teamName,@team_id);", conn );
+          SqlParameter nameParameter = new SqlParameter();
+          nameParameter.ParameterName = "@teamName";
+          nameParameter.Value = this.GetTeamName();
+          cmd.Parameters.Add(nameParameter);
+
+          SqlParameter team_idParameter = new SqlParameter();
+          team_idParameter.ParameterName = "@team_id";
+          team_idParameter.Value = this.GetTeam_Id();
+          cmd.Parameters.Add(team_idParameter);
+          SqlDataReader rdr = cmd.ExecuteReader();
+
+          while(rdr.Read())
+          {
+            this._id = rdr.GetInt32(0);
+          }
+          if (rdr !=null)
+          {
+            rdr.Close();
+          }
+          if (conn !=null)
+          {
+            conn.Close();
+          }
+        }
+
+       //
+        public static Team Find(int id)
+       {
+         SqlConnection conn = DB.Connection();
+         conn.Open();
+
+         SqlCommand cmd = new SqlCommand("SELECT * FROM teams WHERE id = @teamId;", conn);
+         SqlParameter teamIdParameter = new SqlParameter();
+         teamIdParameter.ParameterName =  "@teamId";
+         teamIdParameter.Value = id.ToString();
+         cmd.Parameters.Add(teamIdParameter);
+         SqlDataReader rdr = cmd.ExecuteReader();
+
+         int findTeamId = 0;
+         string findTeamName = null;
+         int findTeam_id = 0;
+         while(rdr.Read())
+         {
+           findTeamId = rdr.GetInt32(0);
+           findTeamName = rdr.GetString(1);
+           findTeam_id = rdr.GetInt32(2);
+         }
+         Team findTeam = new Team(findTeamName,findTeam_id,findTeamId);
+
+         if (rdr != null)
+         {
+           rdr.Close();
+         }
+         if (conn != null)
+         {
+           conn.Close();
+         }
+         return findTeam;
+
+       }
+
+       public void Update(string Name)
+       {
+         SqlConnection conn = DB.Connection();
+         conn.Open();
+
+         SqlCommand cmd = new SqlCommand("UPDATE teams SET name = @teamName output inserted.name WHERE id = @teamId;", conn);
+         SqlParameter TeamNameParameter = new SqlParameter();
+         TeamNameParameter.ParameterName = "@teamName";
+         TeamNameParameter.Value = Name;
+
+         SqlParameter TeamIdParameter = new SqlParameter();
+         TeamIdParameter.ParameterName = "@teamId";
+         TeamIdParameter.Value = this.GetId();
+
+         cmd.Parameters.Add(TeamNameParameter);
+         cmd.Parameters.Add(TeamIdParameter);
+
+         SqlDataReader rdr = cmd.ExecuteReader();
+
+         while(rdr.Read())
+         {
+           this._name = rdr.GetString(0);
+         }
+
+         if (rdr != null)
+         {
+           rdr.Close();
+         }
+
+         if (rdr != null)
+         {
+           conn.Close();
+         }
+       }
+
+
+       public void Delete()
+       {
+         SqlConnection conn = DB.Connection();
+         conn.Open();
+         SqlCommand cmd = new SqlCommand ("DELETE FROM teams WHERE id = @teamId;", conn);
+
+         SqlParameter teamIdParameter = new SqlParameter();
+         teamIdParameter.ParameterName = "teamId";
+         teamIdParameter.Value=this.GetId();
+
+         cmd.Parameters.Add(teamIdParameter);
+         cmd.ExecuteNonQuery();
+         if (conn != null)
+         {
+           conn.Close();
+         }
+       }
+
+       public static void DeleteAll()
+       {
+         SqlConnection conn = DB.Connection();
+         conn.Open();
+         SqlCommand cmd = new SqlCommand ("DELETE FROM teams;",conn);
+         cmd.ExecuteNonQuery();
+         conn.Close();
+       }
+
+  }
 }
