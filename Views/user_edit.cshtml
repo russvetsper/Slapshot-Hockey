@@ -1,10 +1,10 @@
-<h1>edit user</h1>
-
+<h1>slapshot List</h1>
+<hr />
 <h2>Edit user: @Model.GetName()</h2>
-<form action="/users/edit/@Model.GetId()" method="post">
+<form action="/user/edit/@Model.GetId()" method="post">
   <input type="hidden" name="_method" value="PATCH">
   <input name="user-id" type="hidden" value="@Model.GetId()">
-  <label for="user-name">User Name:</label>
+  <label for="user-name">User name</label>
   <input id="user-name" name="user-name" type="text">
   <button type="submit">Submit</button>
 </form>
