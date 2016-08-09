@@ -40,6 +40,6 @@ namespace Slapshot
   }
   public static class DBConfiguration
   {
-      public static string ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=slapshot_hockey;Integrated Security=SSPI;";
+      public static string ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=slapshot_hockey_test;Integrated Security=SSPI;";
   }
 }
