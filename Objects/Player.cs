@@ -53,6 +53,22 @@ namespace Slapshot.Objects
     {
       _rating = newRating;
     }
+//SAVE & GetAll
+
+    //Not done yet
+
+
+
+//DeleteAll
+    public static void DeleteAll()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand ("DELETE FROM players;",conn);
+      cmd.ExecuteNonQuery();
+      conn.Close();
+
+    }
 
   }
 }
