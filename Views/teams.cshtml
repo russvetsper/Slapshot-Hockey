@@ -8,7 +8,7 @@ else
   <ul>
     @foreach (var team in Model)
     {
-      <li>@team.GetName()</li>
+      <li>@team.GetTeamName()</li>
     }
   </ul>
   <form action="/teams/delete" method="post">
