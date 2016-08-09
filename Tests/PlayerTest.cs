@@ -5,7 +5,7 @@ using System;
 
 namespace Slapshot.Objects
 {
-  public class TeamTest : IDisposable
+  public class PlayerTest : IDisposable
   {
     public void Dispose()
     {
