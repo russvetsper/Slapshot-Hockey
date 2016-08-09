@@ -56,7 +56,7 @@ namespace Slapshot.Objects
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("INSERT INTO users(name, password)OUTPUT INSERTED.id VALUES (@userName, @userPassword);", conn );
+      SqlCommand cmd = new SqlCommand("INSERT INTO users (name, password)OUTPUT INSERTED.id VALUES (@userName, @userPassword);", conn );
       SqlParameter nameParameter = new SqlParameter();
       nameParameter.ParameterName = "@userName";
       nameParameter.Value = this.GetName();
@@ -66,6 +66,7 @@ namespace Slapshot.Objects
       passwordParameter.ParameterName = "@userPassword";
       passwordParameter.Value = this.GetPassword();
       cmd.Parameters.Add(passwordParameter);
+
       SqlDataReader rdr = cmd.ExecuteReader();
 
       while(rdr.Read())

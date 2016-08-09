@@ -73,8 +73,8 @@ namespace Slapshot.Objects
 
 
       Get["/teams/new"] = _ => {
-        List<Team> AllTeams = Team.GetAll();
-        return View["teams_form.cshtml", AllTeams];
+        List<User> AllUsers = User.GetAll();
+        return View["teams_form.cshtml", AllUsers];
       };
       Post["/teams/new"] = _ => {
         Team newTeam = new Team(Request.Form["team-name"], Request.Form["user-id"]);
