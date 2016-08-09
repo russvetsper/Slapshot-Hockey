@@ -1,0 +1,15 @@
+<h1>Add teams</h1>
+<form action="/teams/new" method="post">
+  <label for="team-name">Name</label>
+  <input id="team-name" name="team-name" type="text">
+  <select name="user-id">
+    @foreach (var user in Model)
+    {
+      <option value="@user.GetId()">@user.GetName()</option>
+    }
+  </select>
+  <button type="submit">Add</button>
+</form>
+<a href="/">Home</a>
+<br>
+<a href="/teams">Clients</a>
