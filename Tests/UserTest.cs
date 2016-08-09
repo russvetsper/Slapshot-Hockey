@@ -36,8 +36,7 @@ namespace Slapshot.Objects
 
       Assert.Equal("password", result);
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 
     [Fact]
    public void Test3_SetName()
@@ -110,11 +109,6 @@ namespace Slapshot.Objects
 
 
 
-
-=======
->>>>>>> 4f9a64304eff58592bfa277bd392d62f8456d096
-=======
->>>>>>> 4f9a64304eff58592bfa277bd392d62f8456d096
 
 
     }

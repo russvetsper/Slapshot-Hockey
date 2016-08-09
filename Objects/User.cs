@@ -22,14 +22,7 @@ namespace Slapshot.Objects
       return _name;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
->>>>>>> 4f9a64304eff58592bfa277bd392d62f8456d096
-=======
-
->>>>>>> 4f9a64304eff58592bfa277bd392d62f8456d096
     public string GetPassword()
     {
       return _password;
