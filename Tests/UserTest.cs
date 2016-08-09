@@ -35,7 +35,7 @@ namespace Slapshot.Objects
       string result = newUser.GetPassword();
 
       Assert.Equal("password", result);
-
+    }
 
 
     }
