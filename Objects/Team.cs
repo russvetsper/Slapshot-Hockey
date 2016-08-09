@@ -189,8 +189,32 @@ public class Team
        }
 
 
+       public void Delete()
+       {
+         SqlConnection conn = DB.Connection();
+         conn.Open();
+         SqlCommand cmd = new SqlCommand ("DELETE FROM teams WHERE id = @teamId;", conn);
 
+         SqlParameter teamIdParameter = new SqlParameter();
+         teamIdParameter.ParameterName = "teamId";
+         teamIdParameter.Value=this.GetId();
 
+         cmd.Parameters.Add(teamIdParameter);
+         cmd.ExecuteNonQuery();
+         if (conn != null)
+         {
+           conn.Close();
+         }
+       }
 
-}
+       public static void DeleteAll()
+       {
+         SqlConnection conn = DB.Connection();
+         conn.Open();
+         SqlCommand cmd = new SqlCommand ("DELETE FROM teams;",conn);
+         cmd.ExecuteNonQuery();
+         conn.Close();
+       }
+
+  }
 }

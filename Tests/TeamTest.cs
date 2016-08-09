@@ -5,8 +5,12 @@ using System;
 
 namespace Slapshot.Objects
 {
-  public class TeamTest
+  public class TeamTest : IDisposable
   {
+    public void Dispose()
+    {
+      Team.DeleteAll();
+    }
 
 
     public TeamTest()
@@ -93,6 +97,26 @@ namespace Slapshot.Objects
 
     Assert.Equal("Bruins", result);
   }
+
+
+
+     [Fact]
+     public void Test7_DeleteOneTeam()
+     {
+       Team firstTeam = new Team("BlackHawks",1);
+       firstTeam.Save();
+
+       Team secondTeam = new Team("Rangers",1);
+       secondTeam.Save();
+
+       firstTeam.Delete();
+       List<Team> allTeams = Team.GetAll();
+       List<Team> afterDeleteFristTeam = new List<Team> {secondTeam};
+
+       Assert.Equal(afterDeleteFristTeam, allTeams);
+     }
+
+
 
  }
 }
