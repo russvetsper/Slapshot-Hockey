@@ -60,7 +60,7 @@ namespace Slapshot.Objects
         return View["user_delete.cshtml", SelectedUser];
       };
 
-      Delete["/user/delete/{id}"] = parameters => {
+      Delete["/users/delete/{id}"] = parameters => {
         User SelectedUser = User.Find(parameters.id);
         SelectedUser.Delete();
         return View["success.cshtml"];
