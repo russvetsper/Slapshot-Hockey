@@ -6,7 +6,9 @@
   {
     @foreach (var user in Model)
     {
-      <li><a href="/users/@user.GetId()">@user.GetName()</a> | <a href="/user/edit/@user.GetId()">Edit</a>| <a href="user/delete/user.GetId()">Delete</a> </li>
+      <li><a href="/users/@user.GetId()">@user.GetName()</a>
+       | <a href="/user/edit/@user.GetId()">Edit</a>
+       | <a href="user/delete/user.GetId()">Delete</a> </li>
     }
   }
 </ul>
