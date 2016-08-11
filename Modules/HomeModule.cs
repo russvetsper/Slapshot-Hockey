@@ -60,10 +60,15 @@ namespace Slapshot.Objects
         return View["user_delete.cshtml", SelectedUser];
       };
 
-      Delete["/user/delete/{id}"] = parameters => {
+      Post["/user/delete/{id}"] = parameters => {
         User SelectedUser = User.Find(parameters.id);
         SelectedUser.Delete();
         return View["success.cshtml"];
+      };
+
+      Post["/users/delete"] = _ => {
+        User.DeleteAll();
+        return View["cleared.cshtml"];
       };
 
       Get["/teams"] = _ => {
@@ -77,8 +82,11 @@ namespace Slapshot.Objects
         return View["teams_form.cshtml", AllUsers];
       };
       Post["/teams/new"] = _ => {
-        Team newTeam = new Team(Request.Form["team-name"], Request.Form["user-id"]);
-        newTeam.Save();
+        if(!string.IsNullOrEmpty(Request.Form["user-id"]))
+        {
+          Team newTeam = new Team(Request.Form["team-name"], Request.Form["user-id"]);
+          newTeam.Save();
+        }
         return View["success.cshtml"];
       };
 
@@ -87,11 +95,10 @@ namespace Slapshot.Objects
         return View["cleared.cshtml"];
       };
 
-
-
-
-
-
+      Post["/users/clear"] = _ => {
+        User.DeleteAll();
+        return View["cleared.cshtml"];
+      };
 
 
 
