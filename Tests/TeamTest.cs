@@ -34,9 +34,9 @@ namespace Slapshot.Objects
    [Fact]
    public void Test2_GetTeamID()
    {
-     // arrange
+
     Team newTeam = new Team("Leafs",1);
-     // act
+
      int result = newTeam.GetTeam_Id();
 
      Assert.Equal(1, result);
@@ -86,7 +86,6 @@ namespace Slapshot.Objects
 
 
 
-
      [Fact]
   public void Test6_UpdateTeam()
   {
@@ -115,7 +114,6 @@ namespace Slapshot.Objects
 
        Assert.Equal(afterDeleteFristTeam, allTeams);
      }
-
 
 
  }
