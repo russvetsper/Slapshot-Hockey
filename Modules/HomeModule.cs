@@ -66,6 +66,11 @@ namespace Slapshot.Objects
         return View["success.cshtml"];
       };
 
+      Post["/users/delete"] = _ => {
+        User.DeleteAll();
+        return View["cleared.cshtml"];
+      };
+
       Get["/teams"] = _ => {
         List<Team> AllTeams = Team.GetAll();
         return View["teams.cshtml", AllTeams];
