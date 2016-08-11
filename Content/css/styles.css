@@ -1,8 +1,24 @@
 h1 {
-  color: #b39800;
+  color: #2D3047;
 }
 
+p {
+  color: #2D3047;
+}
+
+.title-font {
+  font-family: 'Molle', cursive;
+}
+
+.title {
+  text-align: center;
+}
+
+.jumbotron {
+  background-color: #93B7BE;
+}
 
 body {
-    background-color: grey;
+    background-color: #EFF1ED;
+    font-family: 'Trade Winds', cursive;
 }
