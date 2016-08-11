@@ -209,6 +209,8 @@ namespace Slapshot.Objects
       conn.Close();
     }
 
+    
+
      public void Dispose()
    {
      User.DeleteAll();
